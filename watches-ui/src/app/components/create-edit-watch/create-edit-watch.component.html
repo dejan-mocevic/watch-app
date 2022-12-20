@@ -1,0 +1,62 @@
+<div class="container">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" required class="row g-3">
+    <div class="col-12">
+      <div class="row">
+        <h4 *ngIf="iE==false" class="modal-title pt-3 col-11">Add Watch</h4>
+        <h4 *ngIf="iE==true" class="modal-title pt-3 col-11">Edit Watch</h4>
+        <button type="button" class="close border-0 btn float-end col-1" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="brand" class="form-label">Watch Brand</label>
+      <input id="brand" formControlName="brand" type="text" class="form-control" placeholder="Rolex, Seiko, etc...">
+    </div>
+    <small *ngIf="myForm.controls['brand'].invalid && (myForm.controls['brand'].dirty || myForm.controls['brand'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
+      Brand is required!
+    </small>
+    <div class="col-12">
+      <label for="model" class="form-label">Watch Model</label>
+      <input id="model" formControlName="model" type="text" class="form-control" placeholder="Submariner, Speedtimer, etc...">
+    </div>
+    <small *ngIf="myForm.controls['model'].invalid && (myForm.controls['model'].dirty || myForm.controls['model'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
+      Model is required!
+    </small>
+    <div class="col-12">
+      <label for="price" class="form-label">Price</label>
+      <input id="price" formControlName="price" type="text" class="form-control" placeholder="$1000">
+    </div>
+    <small *ngIf="myForm.controls['price'].invalid && (myForm.controls['price'].dirty || myForm.controls['price'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
+      Price is required!
+    </small>
+    <small *ngIf="myForm.controls['price'].invalid && (myForm.controls['price'].dirty || myForm.controls['price'].touched || myForm.controls['price'].errors!['pattern'])" class="alert text-danger m-0 p-0 ms-1 mt-1">
+      Price must be a number!
+    </small>
+    <div class="col-12">
+      <label for="model" class="form-label">Watch Style</label>
+      <select id="styleId" formControlName="styleId" class="form-select">
+        <option value="" disabled selected>Choose...</option>
+        <option *ngFor="let style of watchStyles" [value]="style.id">{{style.styleName}}</option>
+      </select>
+    </div>
+    <small *ngIf="myForm.controls['styleId'].invalid && (myForm.controls['styleId'].dirty || myForm.controls['styleId'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
+      Style is required!
+    </small>
+    <div class="col-12">
+      <label for="watchType" class="form-label">Watch Type</label>
+      <select id="watchType" formControlName="watchType" class="form-select">
+        <option value="" disabled selected>Choose...</option>
+        <option>Automatic</option>
+        <option>Quartz</option>
+      </select>
+    </div>
+    <small *ngIf="myForm.controls['watchType'].invalid && (myForm.controls['watchType'].dirty || myForm.controls['watchType'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
+      Watch Type is required!
+    </small>
+    <div class="col-12 mt-5">
+      <button [disabled]="!myForm.valid" type="submit" class="btn btn-primary mb-3 w-100">Save</button>
+    </div>
+  </form>
+</div>
+

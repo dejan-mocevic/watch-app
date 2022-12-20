@@ -1,0 +1,45 @@
+<div class="container text-center mt-5 mb-5">
+  <h4>This is the full list of our watches!</h4>
+  <p>Become Admin on our site and add watches to the list yourself!</p>
+</div>
+
+<div class="container">
+  <input autofocus id="filter" type="text" placeholder="Filter by brand..." class="float-start form-control w-25 filterInput"
+    [(ngModel)]="input" (keyup)="applyFilter(watches, input)">
+  <button class="btn btn-primary float-end mt-3 mb-4 hvr" (click)="openModal()">
+    Create Watch</button>
+</div>
+
+<div class="container mt-5 mb-5 marg">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Watch Type</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Model</th>
+        <th scope="col">Style</th>
+        <th scope="col">Price</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let watch of watches">
+        <th scope="row">{{watch.id}}</th>
+        <td>{{watch.watchType}}</td>
+        <td>{{watch.brand}}</td>
+        <td>{{watch.model}}</td>
+        <td>{{watch.styleId}}</td>
+        <td>{{watch.price | currency}}</td>
+        <td>
+          <button class="btn btn-secondary me-2" (click)="openModal2(watch!)"><fa-icon [icon]="editIcon"></fa-icon></button>
+          <button [swal]="{title:'Delete Watch!', text:'Are you sure you want to delete this watch?', icon:'warning', showCancelButton:true, cancelButtonText:'Cancel'}" (confirm)="removeWatch(watch.id!)" class="btn btn-danger" type="button">
+            <fa-icon class="hvr" [icon]="trashCan"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+

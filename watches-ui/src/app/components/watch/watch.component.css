@@ -1,0 +1,19 @@
+.hvr:hover {
+  transform: scale(1.1);
+  transition: 1s;
+}
+
+.hvr {
+  transition: 1s;
+}
+
+.marg {
+  margin-bottom: 200px !important;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .filterInput {
+    width: 30% !important;
+  }
+}

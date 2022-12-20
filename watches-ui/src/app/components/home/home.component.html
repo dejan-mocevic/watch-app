@@ -1,0 +1,22 @@
+
+<div class="container text-center mt-5 mb-5">
+  <h4>We offer a great selection of luxury watches!</h4>
+  <p>These are just some of our best pieces, but if you want to see the full list, you have to Login/Register to our site!</p>
+</div>
+
+<hr class="mb-5">
+
+<div class="container text-center marginbtm">
+  <div class="row">
+    <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-5" *ngFor="let card of cards">
+      <div class="card" style="width: 20rem; height: 30rem;">
+        <img [src]="card.img" class="card-img-top mb-2" alt="" style="width: 19.9rem; height: 19.9rem;">
+        <hr>
+        <div class="card-title">{{card.title}}</div>
+        <div class="card-body">
+          <p class="card-text">{{card.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
