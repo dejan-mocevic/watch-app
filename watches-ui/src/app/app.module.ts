@@ -10,6 +10,7 @@ import { CreateEditWatchComponent } from './components/create-edit-watch/create-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { LoginRegisterComponent } from './components/login-register/login-register.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     WatchComponent,
     HomeComponent,
     CreateEditWatchComponent,
+    LoginRegisterComponent,
 
   ],
   imports: [

@@ -22,6 +22,8 @@ export class WatchComponent implements OnInit {
   input: string = "";
   Watches: Watch[] = [];
 
+  isLoggedIn?: boolean;
+
   constructor(
     private watchService: WatchService,
     private _NgbModal: NgbModal
@@ -29,6 +31,11 @@ export class WatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadWatches();
+    this.isLoggedIn = this.watchService.getIsLoggedIn();
+  }
+
+  ngDoCheck(): void {
+    this.isLoggedIn = this.watchService.getIsLoggedIn();
   }
 
   trashCan = faTrashCan;
@@ -60,7 +67,8 @@ export class WatchComponent implements OnInit {
   }
  //SORT BY PRICE
   removeWatch(id: number) {
-      this.watchService.deleteWatch(id).subscribe((response: Watch[]) => {
+    const token = localStorage.getItem('jwtToken');
+      this.watchService.deleteWatch(id, token!).subscribe((response: Watch[]) => {
         window.location.reload();
       })
   }

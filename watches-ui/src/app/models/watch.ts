@@ -1,3 +1,4 @@
+import { WatchStyle } from "./watch-style";
 
 export class Watch {
   id?: number;
@@ -5,5 +6,6 @@ export class Watch {
   brand: string = "";
   model: string = "";
   price: string = "";
-  styleId?: number;
+  watchStyleId?: number;
+  watchStyle?: WatchStyle;
 }

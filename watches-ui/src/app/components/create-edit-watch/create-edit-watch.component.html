@@ -35,12 +35,12 @@
     </small>
     <div class="col-12">
       <label for="model" class="form-label">Watch Style</label>
-      <select id="styleId" formControlName="styleId" class="form-select">
+      <select id="watchStyleId" formControlName="watchStyleId" class="form-select">
         <option value="" disabled selected>Choose...</option>
         <option *ngFor="let style of watchStyles" [value]="style.id">{{style.styleName}}</option>
       </select>
     </div>
-    <small *ngIf="myForm.controls['styleId'].invalid && (myForm.controls['styleId'].dirty || myForm.controls['styleId'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
+    <small *ngIf="myForm.controls['watchStyleId'].invalid && (myForm.controls['watchStyleId'].dirty || myForm.controls['watchStyleId'].touched)" class="alert text-danger m-0 p-0 ms-1 mt-1">
       Style is required!
     </small>
     <div class="col-12">

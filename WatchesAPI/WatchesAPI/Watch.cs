@@ -11,10 +11,8 @@ namespace WatchesAPI
         public string Brand { get; set; }
         public string Model { get; set; }
         public string Price { get; set; }
-        //[ForeignKey("Id")]
-        //public int StyleId { get; set; }
-        [ForeignKey("Id")]
-        public virtual WatchStyle WatchStyle { get; set; }
+        public int WatchStyleId { get; set; }
+        public WatchStyle WatchStyle { get; set; }
 
     }
 }

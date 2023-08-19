@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { findIndex } from 'rxjs';
 import { Watch } from 'src/app/models/watch';
 import { WatchStyle } from 'src/app/models/watch-style';
 import { WatchService } from 'src/app/services/watch.service';
@@ -20,19 +21,26 @@ export class CreateEditWatchComponent implements OnInit {
     watchType: "",
     model: "",
     price: "",
-    styleId: 0
+    watchStyleId: 0,
+    watchStyle: {
+      styleName: "",
+      id: 0
+    }
   };
 
   iE?: boolean;
   id?: number;
   myWatch?: Watch;
 
+  token?: string;
+
   myForm = new FormGroup({
     watchType: new FormControl('', Validators.required),
     brand: new FormControl('', Validators.required),
     model: new FormControl('', Validators.required),
     price: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
-    styleId: new FormControl(0, Validators.required)
+    watchStyleId: new FormControl(0, Validators.required),
+    //styleName: new FormControl("", Validators.required)
   });
 
   constructor(
@@ -43,6 +51,8 @@ export class CreateEditWatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.iE = this.watchService.getE();
+    this.token = localStorage.getItem('jwtToken')?.toString();
+    console.log(this.token);
 
     if(this.iE == true)
     {
@@ -59,6 +69,10 @@ export class CreateEditWatchComponent implements OnInit {
     })
   }
 
+  ngDoCheck(): void {
+    this.token = localStorage.getItem('jwtToken')?.toString();
+  }
+
   populateForm() {
     this.myWatch = this.watchService.getW();
     this.id = this.myWatch.id;
@@ -69,7 +83,8 @@ export class CreateEditWatchComponent implements OnInit {
         brand: [this.myWatch.brand, Validators.required],
         price: [this.myWatch.price, [Validators.required, Validators.pattern("^[0-9]*$")]],
         watchType: [this.myWatch.watchType, Validators.required],
-        styleId: [this.myWatch.styleId!, Validators.required]
+        watchStyleId: [this.myWatch.watchStyleId!, Validators.required],
+        //styleName: [this.myWatch.watchStyle?.styleName!]
       })
     }
   }
@@ -83,21 +98,29 @@ export class CreateEditWatchComponent implements OnInit {
     this.watch.model = this.myForm.value.model!;
     this.watch.price = this.myForm.value.price!;
     this.watch.watchType = this.myForm.value.watchType!;
-    let styleId: number = Number(this.myForm.value.styleId);
-    this.watch.styleId = styleId;
-    //this.watch.watchStyle!.styleName = this.myForm.value.styleName!;
+    let styleId: number = Number(this.myForm.value.watchStyleId);
+    this.watch.watchStyleId = styleId;
+
+    this.watch.watchStyle!.styleName! = "";
+    this.watch.watchStyle!.id = styleId;
+
+
 
     if(this.iE == false) {
-      this.watchService.createWatch(this.watch).subscribe(response => {
-        this.activeModal.close();
-        window.location.reload();
-      })
+      if(this.token != null || this.token != undefined) {
+        this.watchService.createWatch(this.watch, this.token!).subscribe(response => {
+          this.activeModal.close();
+          window.location.reload();
+        })
+      }
     }
     else {
-      this.watchService.updateWatch(this.watch, this.id!).subscribe(response => {
-        this.activeModal.close();
-        window.location.reload();
-      })
+      if(this.token != null || this.token != undefined) {
+        this.watchService.updateWatch(this.watch, this.id!, this.token!).subscribe(response => {
+          this.activeModal.close();
+          window.location.reload();
+        })
+      }
     }
   }
 

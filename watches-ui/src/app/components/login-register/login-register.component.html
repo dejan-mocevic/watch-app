@@ -1,0 +1,53 @@
+<div class="container w-50 mt-5" *ngIf="!isRegister">
+  <h4>
+    Sign in to your account.
+  </h4>
+  <form [formGroup]="loginForm" (ngSubmit)="SubmitLogin()" class="row mt-4 g-3">
+    <div class="form-outline col-12">
+      <input type="email" formControlName="username" id="form2Example1" class="form-control" />
+      <label class="form-label" for="form2Example1">Username</label>
+    </div>
+    <small *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)" class="alert text-danger m-0 p-0 ms-1 mb-4">
+      Username is required!
+    </small>
+    <div class="form-outline col-12">
+      <input type="password" formControlName="password" id="form2Example2" class="form-control" />
+      <label class="form-label" for="form2Example2">Password</label>
+    </div>
+    <small *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="alert text-danger m-0 p-0 ms-1 mb-4">
+      Password is required!
+    </small>
+    <div class="col-12">
+      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary btn-block mt-4 mb-4 me-2">Sign in</button>
+      <button type="button" class="btn btn-secondary btn-block mb-4 mt-4" (click)="toRegister()">Don't have an account? Sign up!</button>
+    </div>
+  </form>
+</div>
+
+
+
+<div class="container w-50 mt-5" *ngIf="isRegister">
+  <h4>
+    Create your account!
+  </h4>
+  <form [formGroup]="registerForm" (ngSubmit)="SubmitRegister()" class="row mt-4 g-3">
+    <div class="form-outline col-12">
+      <input type="email" formControlName="username" id="form2Example1" class="form-control" />
+      <label class="form-label" for="form2Example1">Username</label>
+    </div>
+    <small *ngIf="registerForm.controls['username'].invalid && (registerForm.controls['username'].dirty || registerForm.controls['username'].touched)" class="alert text-danger m-0 p-0 ms-1 mb-4">
+      Username is required!
+    </small>
+    <div class="form-outline col-12">
+      <input type="password" formControlName="password" id="form2Example2" class="form-control" />
+      <label class="form-label" for="form2Example2">Password</label>
+    </div>
+    <small *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)" class="alert text-danger m-0 p-0 ms-1 mb-4">
+      Password is required!
+    </small>
+    <div class="col-12">
+      <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary btn-block mt-4 mb-4 me-2">Sign up</button>
+      <button type="button" class="btn btn-secondary btn-block mb-4 mt-4" (click)="toLogin()">Back to Sign in</button>
+    </div>
+  </form>
+</div>

@@ -11,7 +11,13 @@
           <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link active" aria-current="page">Home</a>
         </li>
         <li class="nav-item p-3 items">
-          <a routerLink="/watch-component" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link active" aria-current="page">Watches</a>
+          <a routerLink="/watch-component" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link" aria-current="page">Watches</a>
+        </li>
+        <li *ngIf="!isLoggedIn" class="nav-item p-3 items">
+          <a routerLink="/login-register-component" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link" aria-current="page">Login/Register</a>
+        </li>
+        <li *ngIf="isLoggedIn" class="nav-item p-3 items">
+          <a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link" aria-current="page" (click)="logout()">Logout</a>
         </li>
       </ul>
     </div>

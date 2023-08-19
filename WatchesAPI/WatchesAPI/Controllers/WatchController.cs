@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
 using WatchesAPI.Data;
 
 namespace WatchesAPI.Controllers
@@ -17,14 +22,22 @@ namespace WatchesAPI.Controllers
         }
 
         [HttpGet]
+        //WE CAN ONLY SE THE LIST OF WATCHES IF WE AREN'T LOGGED IN
         public async Task<ActionResult<List<Watch>>> GetWatches()
         {
-            return Ok(await _context.Watches.Include("WatchStyles").ToListAsync());
+            await _context.Watches.Include("WatchStyle").ToListAsync();
+            return Ok(await _context.Watches.ToListAsync());
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //WE NEED TO LOG IN TO ADD NEW WATCHES
+        //WE NEED AUTH HEADER IN FRONTEND
         public async Task<ActionResult<List<Watch>>> CreateWatch(Watch watch)
         {
+            string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            HttpContext.Response.Headers.Add("Authorization", $"Bearer {token}");
             Watch wattch = new Watch();
             if (watch == null)
             {
@@ -34,16 +47,20 @@ namespace WatchesAPI.Controllers
             wattch.WatchType = watch.WatchType;
             wattch.Model = watch.Model;
             wattch.Price = watch.Price;
-            //wattch.StyleId = watch.StyleId;
+            wattch.WatchStyleId = watch.WatchStyleId;
           
             _context.Watches.Add(wattch);
             await _context.SaveChangesAsync();
 
+            
+
             return Ok(await _context.Watches.ToListAsync());
         }
 
+
         [HttpPut]
         [Route("{id}")]
+        [Authorize]
         public async Task<ActionResult<List<Watch>>> UpdateWatch(Watch watch, int id)
         {
             var dbWatch = await _context.Watches.FindAsync(id);
@@ -55,8 +72,7 @@ namespace WatchesAPI.Controllers
             dbWatch.Model = watch.Model;
             dbWatch.Price = watch.Price;
             dbWatch.WatchType = watch.WatchType;
-            //dbWatch.StyleId = watch.StyleId;
-            //dbWatch.WatchStyle = watch.WatchStyle;
+            dbWatch.WatchStyleId = watch.WatchStyleId;
             
 
             await _context.SaveChangesAsync();
@@ -66,6 +82,7 @@ namespace WatchesAPI.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public async Task<ActionResult<List<Watch>>> DeleteWatch(int id)
         {
             var dbWatch = await _context.Watches.FindAsync(id);
